@@ -5,84 +5,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TimeSheet</title>
+    <title>Train Times</title>
     <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.23.0/moment.min.js"></script>
+
     <!-- Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
+            
+    <!-- MDBootstrap Datatables  -->
+    <link rel="stylesheet" href="css/addons/datatables.min.css" text="text/css">
     <link rel="stylesheet" href="style.css" text="text/css">
 
 </head>
 
 <body>
     <div class="container">
-
-
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4 text-center"><strong>Train Scheduler</strong></h1>
             </div>
             <div class="container">
-                    <div class=".col-auto">
-                        <div class="card card-default">
-                            <div class="card-body jumbotron jumbotron-fluid">
-                                <form class="form-row">
-                                    <div class="col">
-                                        <label for="train">Train Name</label>
-                                        <input class="form-control" id="train-name" type="text">
-                                    </div>
-                                    <div class="col">
-                                        <label for="destination">Destination</label>
-                                        <input class="form-control" id="destination" type="text">
-                                    </div>
-                                    <div class="col">
-                                        <label for="arrival">First Train Time (HH:MM - millitary time)</label>
-                                        <input class="form-control" id="arrival" type="text">
-                                    </div>
-                                    <div class="col">
-                                        <label for="frequency">Frequency (Inbound trains in minutes)</label>
-                                        <input class="form-control" id="frequency" type="number">
-                                    </div>
-                                    <button id="train" class="btn btn-primary" type="submit">Submit</button>
-                                </form>
-                            </div>
+                <div class=".col-auto">
+                    <div class="card card-default">
+                        <div class="card-body jumbotron jumbotron-fluid">
+                            <form class="form-row">
+                                <div class="col">
+                                    <label for="trainName">Train Name</label>
+                                    <input class="form-control" id="trainName" type="text">
+                                </div>
+                                <div class="col">
+                                    <label for="destination">Destination</label>
+                                    <input class="form-control" id="destination" type="text">
+                                </div>
+                                <div class="col">
+                                    <label for="arrival">First Train Time (HH:MM - millitary time)</label>
+                                    <input class="form-control" id="arrival" type="text">
+                                </div>
+                                <div class="col">
+                                    <label for="frequency">Frequency (Inbound trains in minutes)</label>
+                                    <input class="form-control" id="frequency" type="number">
+                                </div>
+                                <button id="train" class="btn btn-primary" type="submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
 
+        <div class="table-wrapper-scroll-y">
 
 
-        <table id="displayTable" class="container table table-striped table-bordered table-sm" cellspacing="0" width="100%" table>
-            <thead>
-                <tr>
-                    <th class="th-sm" scope=".col-auto">Train Name
-                    </th>
-                    <th class="th-sm" scope=".col-auto">Destination
-                    </th>
-                    <th class="th-sm" scope=".col-auto">Frequency (mins)
-                    </th>
-                    <th class="th-sm" scope=".col-auto">Next Arrival
-                    </th>
-                    <th class="th-sm" scope=".col-auto">Minutes Away
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-                    <tr>
-                        <th scope=".col-auto">Train Name</th>
-                        <th scope=".col-auto">Destination</th>
-                        <th scope=".col-auto">Frequency (mins)</th>
-                        <th scope=".col-auto">Next Arrival</th>
-                        <th scope=".col-auto">Minutes Away</th>
-                    </tr>
-            </tfoot>
-        </table>
+                <table id="displayTable" class="container table table-striped table-bordered table-sm" cellspacing="0" width="100%"
+                    table>
+                    <thead>
+                        <tr>
+                            <th class="th-sm" scope=".col-auto">Train Name
+                            </th>
+                            <th class="th-sm" scope=".col-auto">Destination
+                            </th>
+                            <th class="th-sm" scope=".col-auto">Frequency (mins)
+                            </th>
+                            <th class="th-sm" scope=".col-auto">Next Arrival
+                            </th>
+                            <th class="th-sm" scope=".col-auto">Minutes Away
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope=".col-auto">Train Name</th>
+                            <th scope=".col-auto">Destination</th>
+                            <th scope=".col-auto">Frequency (mins)</th>
+                            <th scope=".col-auto">Next Arrival</th>
+                            <th scope=".col-auto">Minutes Away</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+        </div>
 
 
 
@@ -90,6 +96,14 @@
 
     </div>
     <script src="apps.js"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.0/js/mdb.min.js"></script>
 </body>
 
 </html>

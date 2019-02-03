@@ -1,12 +1,7 @@
 $(document).ready(function () {
-    $('#dtDynamicVerticalScrollExample').DataTable({
-    "scrollY": "50vh",
-    "scrollCollapse": true,
-    });
-    $('.dataTables_length').addClass('bs-select');
     });
 $(document).ready(function() { 
-    // Initialize Firebase
+
     var config = {
       apiKey: "AIzaSyATRPksRidK9teTKIplimrfS9hRJfCIwhQ",
       authDomain: "train-e7b59.firebaseapp.com",
@@ -15,46 +10,36 @@ $(document).ready(function() {
       storageBucket: "train-e7b59.appspot.com",
       messagingSenderId: "572486441869"
     };
-
     firebase.initializeApp(config);
-
     var database = firebase.database();
 
-    // Create event handler for 'Submit' click
     $("#train").on("click", function(event) {
-
         event.preventDefault();
 
-        // Create object with properties
-        var trainName = $("#train").val().trim();
+        var trainName = $("#trainName").val().trim();
         var destination = $("#destination").val().trim();
-        var firstTrainTime = $("#arrival").val().trim();
+        var arrival = $("#arrival").val().trim();
         var frequency = $("#frequency").val().trim();
         var train = {
-            name: trainName,
-            place: destination,
-            first: firstTrainTime,
-            freq: frequency
+            trainName: trainName,
+            destination: destination,
+            arrival: arrival,
+            frequency: frequency
         }
-        //pushing all items to this the firebase database
         database.ref().push(train);
-        // Clears all of the text-boxes
-        $("#train").val("");
+
+        $("#trainName").val("");
         $("#destination").val("");
-        $("#first-train-time").val("");
+        $("#arrival").val("");
         $("#frequency").val("");
     });
 
     database.ref().on("child_added", function(snapshot) {
 
         var train = snapshot.val();
-        var trainFrequency = train.freq;
-        //MATTS FIRST TRAIN TIME
-        var chosenTrainTime = train.first;
-        console.log("This is my chosen time: " + chosenTrainTime);
-        //*MATTS PUSHED BACK ONE YEAR */
+        var trainFrequency = train.frequency;
+        var chosenTrainTime = train.arrival;
         var setTrainTime = moment(chosenTrainTime, "hh:mm").subtract(1, "years");
-        //*MATTS CURRENT TIME
         var currentTime = moment();
         var compareTimes = currentTime.diff(moment(setTrainTime), "minutes");
         var timeRemainder = compareTimes % trainFrequency;
@@ -63,12 +48,18 @@ $(document).ready(function() {
         var millitaryTime = moment(nextTrain).format("hh:mm");
 
         var newRow = $("<tr>").append(
-            $("<td>").text(train.name),
-            $("<td>").text(train.place),
-            $("<td>").text(train.freq), 
+            $("<td>").text(train.trainName),
+            $("<td>").text(train.destination),
+            $("<td>").text(train.arrival), 
             $("<td>").text(millitaryTime),
             $("<td>").text(minutesAway)
         );
         $("#displayTable > tbody").append(newRow);
     });
+
+    $('#dtDynamicVerticalScrollExample').DataTable({
+    "scrollY": "50vh",
+    "scrollCollapse": true,
+    });
+    $('.dataTables_length').addClass('bs-select');
 });
